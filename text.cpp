@@ -1,4 +1,4 @@
-// g++ text.cpp glad.c -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -o text
+// g++ text.cpp glad.c -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -o main
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "glad/glad.h"
