@@ -31,7 +31,12 @@ float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 // lighting
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos1(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos2(-1.2f, 0.5f, -2.0f);
+
+// light source color
+glm::vec3 lightColor1(1.0f, 1.0f, 1.0f);
+glm::vec3 lightColor2(0.5f, 0.0f, 0.5f);
 
 int main()
 {
@@ -179,10 +184,23 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         
         // be sure to activate shader when setting uniforms/drawing objects
+
+
+        // also draw the lamp object
+        // Firstly, change where the cube is
+        lightPos1.x = sin(glfwGetTime()) * 1.0f;
+        lightPos1.z = cos(glfwGetTime()) * 1.0f;
+
+        lightPos2.x = -sin(glfwGetTime()) * 1.5f;
+        lightPos2.y = -cos(glfwGetTime()) * 1.5f;
+        lightPos2.z = -sin(glfwGetTime()) * 0.5f;
+
         lightingShader.use();
-        lightingShader.setVec3("objectColor", 1.0f, 0.5f, 0.31f);
-        lightingShader.setVec3("lightColor",  1.0f, 1.0f, 1.0f);
-        lightingShader.setVec3("lightPos", lightPos);
+        lightingShader.setVec3("objectColor", 0.8f, 1.0f, 0.3f);
+        lightingShader.setVec3("lightColor[0]",  lightColor1);
+        lightingShader.setVec3("lightColor[1]",  lightColor2);
+        lightingShader.setVec3("lightPos[0]", lightPos1);
+        lightingShader.setVec3("lightPos[1]", lightPos2);
         lightingShader.setVec3("viewPos", camera.Position);
 
         // view/projection transformations
@@ -200,17 +218,32 @@ int main()
         glDrawArrays(GL_TRIANGLES, 0, 36);
 
 
-        // also draw the lamp object
+
+        // --- Light cubes ---
         lightCubeShader.use();
         lightCubeShader.setMat4("projection", projection);
         lightCubeShader.setMat4("view", view);
+
+        // First light cube
         model = glm::mat4(1.0f);
-        model = glm::translate(model, lightPos);
+        model = glm::translate(model, lightPos1);
         model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
         lightCubeShader.setMat4("model", model);
-
+        lightCubeShader.setVec3("lightColor", lightColor1);
         glBindVertexArray(lightCubeVAO);
         glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        // Second light cube
+        model = glm::mat4(1.0f);
+        model = glm::translate(model, lightPos2);
+        model = glm::scale(model, glm::vec3(0.2f));
+        lightCubeShader.setMat4("model", model);
+        lightCubeShader.setVec3("lightColor", lightColor2);
+        glBindVertexArray(lightCubeVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
