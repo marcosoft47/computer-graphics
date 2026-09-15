@@ -38,6 +38,9 @@ glm::vec3 lightPos2(-1.2f, 0.5f, -2.0f);
 glm::vec3 lightColor1(1.0f, 1.0f, 1.0f);
 glm::vec3 lightColor2(0.5f, 0.0f, 0.5f);
 
+// cube color
+glm::vec3 cubeColor(1.0f, 0.5f, 0.31f);
+
 int main()
 {
     // glfw: initialize and configure
@@ -196,7 +199,7 @@ int main()
         lightPos2.z = -sin(glfwGetTime()) * 0.5f;
 
         lightingShader.use();
-        lightingShader.setVec3("objectColor", 0.8f, 1.0f, 0.3f);
+        lightingShader.setVec3("objectColor", cubeColor);
         lightingShader.setVec3("lightColor[0]",  lightColor1);
         lightingShader.setVec3("lightColor[1]",  lightColor2);
         lightingShader.setVec3("lightPos[0]", lightPos1);
