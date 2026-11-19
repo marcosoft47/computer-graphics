@@ -1,6 +1,6 @@
 // g++ test.cpp glad.c -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl -o test
 #include "glad/glad.h"
-#include "GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 #include <math.h>
 #include <iostream>
 

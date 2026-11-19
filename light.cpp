@@ -2,11 +2,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 
 #include "glad/glad.h"
-#include "GLFW/glfw3.h"
+#include <GLFW/glfw3.h>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "shader.h"
 #include "camera.h"
@@ -179,7 +179,9 @@ int main()
     unsigned int emissionMap = loadTexture("textures/matrix.jpg");
 
     lightingShader.use();
-    lightingShader.setInt("material.diffuse", 0);
+        lightingShader.setInt("material.diffuse", 0);
+        lightingShader.setInt("material.specular", 1);
+        lightingShader.setInt("material.emission", 2);
 
 
     // render loop
@@ -230,12 +232,10 @@ int main()
 
         lightingShader.setVec3("viewPos", camera.Position);
         lightingShader.setVec3("material.ambient", 1.0f, 0.5f, 0.31f);
-        lightingShader.setInt("material.diffuse", 0);
-        lightingShader.setInt("material.specular", 1);
-        lightingShader.setInt("material.emission", 2);
         lightingShader.setFloat("material.shininess", 32.0f);
         lightingShader.setVec3("light.ambient",  ambientColor);
         lightingShader.setVec3("light.diffuse",  diffuseColor);
+        lightingShader.setVec3("light.direction", -0.2f, -1.0f, -0.3f);
         lightingShader.setVec3("light.specular", 1.0f, 1.0f, 1.0f); 
 
         // view/projection transformations
